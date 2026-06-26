@@ -157,18 +157,55 @@ if (produk.galeri && produk.galeri.length > 0) {
 }
 
 const komentarContainer = document.getElementById("komentarContainer");
-if (produk.komentar && produk.komentar.length > 0) {
-    produk.komentar.forEach((item) => {
-        komentarContainer.innerHTML += `
-            <div class="catalog-card">
-                <h3>Rating: ${item.rating}/5</h3>
-                <p>${item.komentar}</p>
+const DEFAULT_PFP = "../Resources/Images/pfpplaceholder.png";
+
+import { auth as firebaseAuth } from "../JS/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+let loggedInUid = null;
+
+function renderKomentar(list) {
+    if (list && list.length > 0) {
+        komentarContainer.innerHTML = list.map((item, index) => {
+            const isOwner = loggedInUid && item.uid && item.uid === loggedInUid;
+            return `
+            <div class="catalog-card komentar-card">
+                <div class="komentar-user-row">
+                    <img src="${item.photoURL || DEFAULT_PFP}" alt="pfp" class="komentar-avatar" onerror="this.src='${DEFAULT_PFP}'">
+                    <strong class="komentar-username">${item.username || "Pengguna"}</strong>
+                </div>
+                <div class="komentar-rating">
+                    ${"★".repeat(Number(item.rating))}${"☆".repeat(5 - Number(item.rating))}
+                    <span style="color:var(--bw-muted);font-size:0.85rem;"> ${item.rating}/5</span>
+                </div>
+                <p class="komentar-text">${item.komentar}</p>
+                ${isOwner ? `<button class="hapus-komentar-btn" data-index="${index}" style="align-self:flex-end;font-size:0.8rem;padding:6px 14px;border:1px solid var(--bw-danger);color:var(--bw-danger);background:transparent;border-radius:var(--bw-radius-sm);cursor:pointer;">Hapus</button>` : ""}
             </div>
         `;
-    });
-} else {
-    komentarContainer.innerHTML = `<div class="empty-state"><p>Belum ada komentar</p></div>`;
+        }).join("");
+
+        komentarContainer.querySelectorAll(".hapus-komentar-btn").forEach((btn) => {
+            btn.onclick = async () => {
+                if (!confirm("Hapus ulasan ini?")) return;
+                const idx = Number(btn.dataset.index);
+                const daftarKomentar = produk.komentar || [];
+                daftarKomentar.splice(idx, 1);
+                produk.komentar = daftarKomentar;
+                await update(ref(db, "products/" + id), { komentar: daftarKomentar });
+                renderKomentar(produk.komentar);
+            };
+        });
+    } else {
+        komentarContainer.innerHTML = `<div class="empty-state"><p>Belum ada komentar</p></div>`;
+    }
 }
+
+onAuthStateChanged(firebaseAuth, (user) => {
+    loggedInUid = user ? user.uid : null;
+    renderKomentar(produk.komentar);
+});
+
+renderKomentar(produk.komentar);
 
 document.getElementById("kirimKomentar").onclick = async () => {
     const rating = document.getElementById("inputRating").value;
@@ -179,8 +216,25 @@ document.getElementById("kirimKomentar").onclick = async () => {
         return;
     }
 
+    const currentUser = firebaseAuth.currentUser;
+    let username = "Pengguna";
+    let photoURL = null;
+    let uid = null;
+
+    if (currentUser) {
+        uid = currentUser.uid;
+        try {
+            const userSnap = await get(ref(db, "users/" + currentUser.uid));
+            if (userSnap.exists()) {
+                const ud = userSnap.val();
+                username = ud.username || currentUser.email || "Pengguna";
+                photoURL = ud.photoURL || null;
+            }
+        } catch (_) {}
+    }
+
     const daftarKomentar = produk.komentar || [];
-    daftarKomentar.push({ rating, komentar });
+    daftarKomentar.push({ rating, komentar, username, photoURL, uid });
 
     await update(ref(db, "products/" + id), { komentar: daftarKomentar });
     alert("Ulasan berhasil dikirim");

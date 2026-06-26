@@ -12,6 +12,6 @@ export const ROLES = {
 };
 
 export const PLACEHOLDER_IMAGE = "../Resources/Images/belumadaproduk.png";
-export const DEFAULT_AVATAR = "../Resources/Icons/user.png";
+export const DEFAULT_AVATAR = "../Resources/Images/pfpplaceholder.png";
 export const NAVBAR_CACHE_KEY = "navbarUserCache";
 export const ITEMS_PER_PAGE = 9;
