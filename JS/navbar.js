@@ -35,7 +35,16 @@ window.initNavbar = function () {
 
 function getBasePath() {
     const path = window.location.pathname;
-    return path.includes("/HTML/") ? "../" : "";
+    if (path.includes("/HTML/")) return "../";
+    return "";
+}
+
+function getRepoBase() {
+    const path = window.location.pathname;
+    if (path.includes("/HTML/")) {
+        return path.substring(0, path.indexOf("/HTML/") + 1);
+    }
+    return path.substring(0, path.lastIndexOf("/") + 1);
 }
 
 function initLogo(nav) {
@@ -54,7 +63,7 @@ function initLogo(nav) {
         logo.dataset.logoInit = "true";
     } else {
         const link = document.createElement("a");
-        link.href = base + "index.html";
+        link.href = getRepoBase() + "index.html";
         link.className = "logo";
         link.setAttribute("aria-label", "Brilianz Warehouse");
         link.innerHTML = markup;
@@ -84,12 +93,12 @@ function setupMobileToggle(nav) {
 }
 
 function renderGuest(menu) {
-    const base = getBasePath();
+    const rb = getRepoBase();
     menu.innerHTML = `
-        <a href="${base}index.html">Home</a>
-        <a href="${base}HTML/produk.html">Produk</a>
-        <a href="${base}HTML/support.html">Support</a>
-        <a href="${base}HTML/login.html" class="btn btn-nav">Login</a>
+        <a href="${rb}index.html">Home</a>
+        <a href="${rb}HTML/produk.html">Produk</a>
+        <a href="${rb}HTML/support.html">Support</a>
+        <a href="${rb}HTML/login.html" class="btn btn-nav">Login</a>
     `;
 }
 
@@ -107,20 +116,20 @@ function renderCache(menu) {
 }
 
 function renderUser(menu, data) {
-    const base = getBasePath();
+    const rb = getRepoBase();
     let html = `
-        <a href="${base}index.html">Home</a>
-        <a href="${base}HTML/produk.html">Produk</a>
+        <a href="${rb}index.html">Home</a>
+        <a href="${rb}HTML/produk.html">Produk</a>
     `;
 
     if (data.role === "customer") {
-        html += `<a href="${base}HTML/keranjang.html">Keranjang</a>`;
+        html += `<a href="${rb}HTML/keranjang.html">Keranjang</a>`;
     }
 
     html += `
-        <a href="${base}HTML/support.html">Support</a>
-        <a href="${base}HTML/riwayat-pesan.html">Riwayat</a>
-        <a href="${base}HTML/profile.html" class="profile-nav">
+        <a href="${rb}HTML/support.html">Support</a>
+        <a href="${rb}HTML/riwayat-pesan.html">Riwayat</a>
+        <a href="${rb}HTML/profile.html" class="profile-nav">
             <span class="profile-name">${data.username || "Profile"}</span>
             <img src="${data.photoURL || DEFAULT_AVATAR}" class="navbar-avatar" alt="Profile">
         </a>
@@ -141,13 +150,14 @@ function updateRoleMenu(role) {
     const button = document.createElement("button");
     button.className = "role-fab";
     const base = getBasePath();
+    const rb = getRepoBase();
     button.innerHTML = `<img src="${base}Resources/Icons/menu.png" class="role-fab-icon" alt="Admin">`;
 
     const dropdown = document.createElement("div");
     dropdown.className = "role-dropdown";
 
     let menu = `
-        <a href="${base}HTML/dashboard.html">
+        <a href="${rb}HTML/dashboard.html">
             <img src="${base}Resources/Icons/dashboard.png" class="dropdown-icon" alt="">
             Dashboard Produk
         </a>
@@ -155,7 +165,7 @@ function updateRoleMenu(role) {
 
     if (role === "developer") {
         menu += `
-            <a href="${base}HTML/developer-panel.html">
+            <a href="${rb}HTML/developer-panel.html">
                 <img src="${base}Resources/Icons/developer.png" class="dropdown-icon" alt="">
                 Developer Panel
             </a>
