@@ -1,7 +1,7 @@
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
-import { NAVBAR_CACHE_KEY, DEFAULT_AVATAR } from "./utils/constants.js";
+import { NAVBAR_CACHE_KEY } from "./utils/constants.js";
 import { ensureUserProfile } from "./auth-guard.js";
 
 window.initNavbar = function () {
@@ -126,12 +126,14 @@ function renderUser(menu, data) {
         html += `<a href="${rb}HTML/keranjang.html">Keranjang</a>`;
     }
 
+    const base = getBasePath();
+    const dynamicAvatar = data.photoURL || (base + "Resources/Icons/user.png");
     html += `
         <a href="${rb}HTML/support.html">Support</a>
         <a href="${rb}HTML/riwayat-pesan.html">Riwayat</a>
         <a href="${rb}HTML/profile.html" class="profile-nav">
             <span class="profile-name">${data.username || "Profile"}</span>
-            <img src="${data.photoURL || DEFAULT_AVATAR}" class="navbar-avatar" alt="Profile">
+            <img src="${dynamicAvatar}" class="navbar-avatar" alt="Profile">
         </a>
     `;
 
