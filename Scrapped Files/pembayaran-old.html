@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pembayaran - Brilianz Stockist</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.detail-page{
+padding:60px 20px;
+}
+
+.detail-container{
+max-width:1100px;
+margin:auto;
+display:flex;
+gap:40px;
+align-items:center;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.detail-image{
+flex:1;
+}
+
+.detail-image img{
+width:100%;
+max-height:500px;
+object-fit:cover;
+border-radius:15px;
+}
+
+.detail-info{
+flex:1;
+}
+
+.detail-info h1{
+font-size:42px;
+color:#1e1b4b;
+margin-bottom:15px;
+}
+
+.detail-info h2{
+font-size:32px;
+color:#1e1b4b;
+margin-bottom:20px;
+}
+
+.detail-info p{
+line-height:1.8;
+margin-bottom:25px;
+}
+
+.detail-info h3{
+margin-bottom:10px;
+}
+
+.detail-info select{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
+margin-bottom:25px;
+}
+
+@media(max-width:768px){
+
+.detail-container{
+flex-direction:column;
+}
+
+.detail-info h1{
+font-size:32px;
+text-align:center;
+}
+
+.detail-info h2{
+font-size:24px;
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<nav>
+
+<div class="logo">
+BRILIANZ STOCKIST
+</div>
+
+<div class="menu">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="produk.html">
+Produk
+</a>
+
+<a href="support.html">
+Support
+</a>
+
+<a
+href="login.html"
+id="accountLink">
+
+Login
+
+</a>
+
+</div>
+
+</nav>
+
+<section class="detail-page">
+
+<div class="detail-container">
+
+<div class="detail-image">
+
+<img
+id="gambarProduk"
+src=""
+alt="Produk">
+
+</div>
+
+<div class="detail-info">
+
+<h1 id="namaProduk"></h1>
+
+<h2 id="hargaProduk"></h2>
+
+<p id="deskripsiProduk"></p>
+
+<h3>
+Metode Pembayaran
+</h3>
+
+<select id="payment">
+
+<option>DANA</option>
+
+<option>QRIS</option>
+
+<option>Transfer Bank</option>
+
+</select>
+
+<button
+class="btn"
+onclick="pesanProduk()">
+
+Beli Sekarang
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<div class="footer-content">
+
+<h2>
+Brilianz Stockist
+</h2>
+
+<p>
+Toko online produk premium terpercaya.
+</p>
+
+<div class="footer-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="produk.html">
+Produk
+</a>
+
+<a href="support.html">
+Support
+</a>
+
+<a
+href="login.html"
+id="footerAccountLink">
+
+Login
+
+</a>
+
+</div>
+
+<p class="copyright">
+© 2026 Brilianz Stockist
+</p>
+
+</div>
+
+</footer>
+
+<script>
+
+/* =========================
+LOGIN CHECK
+========================= */
+
+const currentUser =
+JSON.parse(
+localStorage.getItem(
+"currentUser"
+)
+);
+
+if(!currentUser){
+
+alert(
+"Silakan login terlebih dahulu!"
+);
+
+window.location.href =
+"login.html";
+
+}
+
+/* =========================
+NAVBAR PROFILE
+========================= */
+
+const accountLink =
+document.getElementById(
+"accountLink"
+);
+
+if(currentUser){
+
+accountLink.textContent =
+"Profile";
+
+accountLink.href =
+"profile.html";
+
+}
+
+/* =========================
+FOOTER PROFILE
+========================= */
+
+const footerAccountLink =
+document.getElementById(
+"footerAccountLink"
+);
+
+if(currentUser){
+
+footerAccountLink.textContent =
+"Profile";
+
+footerAccountLink.href =
+"profile.html";
+
+}
+
+/* =========================
+AMBIL PRODUK
+========================= */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const id =
+params.get("id");
+
+const products =
+JSON.parse(
+localStorage.getItem(
+"products"
+)
+) || [];
+
+const produk =
+products[id];
+
+if(!produk){
+
+alert(
+"Produk tidak ditemukan!"
+);
+
+window.location.href =
+"produk.html";
+
+}
+
+document.getElementById(
+"namaProduk"
+).textContent =
+produk.nama;
+
+document.getElementById(
+"hargaProduk"
+).textContent =
+"Rp" + produk.harga;
+
+document.getElementById(
+"deskripsiProduk"
+).textContent =
+produk.deskripsi;
+
+document.getElementById(
+"gambarProduk"
+).src =
+produk.gambar;
+
+/* =========================
+PESAN PRODUK
+========================= */
+
+function pesanProduk(){
+
+const metode =
+document.getElementById(
+"payment"
+).value;
+
+let orders =
+JSON.parse(
+localStorage.getItem(
+"orders"
+)
+) || [];
+
+orders.push({
+
+    username:
+    currentUser.username,
+
+    product:
+    produk.nama,
+
+    price:
+    produk.harga,
+
+    payment:
+    metode,
+
+    status:
+    "pending",
+
+    date:
+    new Date()
+    .toLocaleString()
+
+});
+
+localStorage.setItem(
+
+"orders",
+
+JSON.stringify(
+orders
+)
+
+);
+
+const pesan =
+
+`Halo Stockist Brilianz Stockist
+
+Saya ingin memesan produk berikut:
+
+Produk : ${produk.nama}
+Harga : Rp${produk.harga}
+Metode Pembayaran : ${metode}
+
+Mohon konfirmasi pesanan saya.`;
+
+const nomor =
+"6283853367309";
+
+window.open(
+
+`https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`,
+
+"_blank"
+
+);
+
+alert(
+"Pesanan berhasil telah diproses dan akan diberitahukan ke Stockist!"
+);
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Produk - Brilliantz Stockist</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<nav>
+
+    <div class="logo">
+        BRILLIANTZ STOCKIST
+    </div>
+
+    <div class="menu">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="produk.html">
+            Produk
+        </a>
+
+        <a href="support.html">
+            Support
+        </a>
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+    </div>
+
+</nav>
+
+<section class="support-page">
+
+    <div class="support-container">
+
+        <h1>Dashboard Produk</h1>
+
+        <p>
+
+            Login sebagai :
+
+            <b id="roleUser">
+
+            </b>
+
+        </p>
+
+        <br>
+
+        <div class="support-form">
+
+            <label>Nama Produk</label>
+
+            <input
+            type="text"
+            id="namaProduk"
+            placeholder="Masukkan nama produk">
+
+            <label>Harga Produk</label>
+
+            <input
+            type="text"
+            id="hargaProduk"
+            placeholder="50.000">
+
+            <label>Deskripsi Produk</label>
+
+            <textarea
+            id="deskripsiProduk"
+            placeholder="Masukkan deskripsi produk"
+            rows="5"></textarea>
+            
+            
+        <label>Gambar Produk</label>
+
+            <input
+            type="text"
+            id="gambarProduk"
+            placeholder="Masukkan URL gambar produk">
+
+            <button
+            class="btn"
+            onclick="tambahProduk()">
+
+                Tambah Produk
+
+            </button>
+
+        </div>
+
+        <br><br>
+
+        <div id="listProduk">
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+/* ========================= */
+/* LOGIN CHECK */
+/* ========================= */
+
+const currentUser =
+JSON.parse(
+localStorage.getItem(
+"currentUser"
+)
+);
+
+if(!currentUser){
+
+    window.location.href =
+    "login.html";
+
+}
+
+if(
+
+currentUser.role !== "admin" &&
+currentUser.role !== "developer"
+
+){
+
+    alert(
+    "Akses Ditolak!"
+    );
+
+    window.location.href =
+    "profile.html";
+
+}
+
+/* ========================= */
+/* ROLE USER */
+/* ========================= */
+
+document.getElementById(
+"roleUser"
+).textContent =
+currentUser.role.toUpperCase();
+
+/* ========================= */
+/* DATA PRODUK */
+/* ========================= */
+
+let products =
+JSON.parse(
+localStorage.getItem(
+"products"
+)
+) || [];
+
+/* ========================= */
+/* TAMPILKAN PRODUK */
+/* ========================= */
+
+function tampilkanProduk(){
+
+    const list =
+    document.getElementById(
+    "listProduk"
+    );
+
+    list.innerHTML = "";
+
+    if(products.length === 0){
+
+        list.innerHTML = `
+
+        <div class="support-form">
+
+            <p>
+                Belum ada produk.
+            </p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    products.forEach(
+    (produk,index)=>{
+
+        list.innerHTML += `
+
+        <div class="support-form">
+
+            <img
+            src="${produk.gambar}"
+            style="
+            width:200px;
+            border-radius:10px;
+            margin-bottom:15px;
+            ">
+
+            <h2>
+                ${produk.nama}
+            </h2>
+
+            <h3>
+                ${produk.harga}
+            </h3>
+
+            <p>
+                ${produk.deskripsi}
+            </p>
+
+            <br>
+
+            <button
+            class="btn"
+            onclick="editProduk(${index})">
+
+                Edit
+
+            </button>
+
+            <button
+            class="btn"
+            onclick="hapusProduk(${index})">
+
+                Hapus
+
+            </button>
+
+        </div>
+
+        <br>
+
+        `;
+
+    });
+
+}
+
+/* ========================= */
+/* TAMBAH PRODUK */
+/* ========================= */
+
+function tambahProduk(){
+
+    const nama =
+    document.getElementById(
+    "namaProduk"
+    ).value.trim();
+
+    const harga =
+    document.getElementById(
+    "hargaProduk"
+    ).value.trim();
+
+    const deskripsi =
+    document.getElementById(
+    "deskripsiProduk"
+    ).value.trim();
+
+    const gambar =
+    document.getElementById(
+    "gambarProduk"
+    ).value.trim();
+
+    if(
+
+    nama === "" ||
+    harga === "" ||
+    deskripsi === "" ||
+    gambar === ""
+
+    ){
+
+        alert(
+        "Lengkapi semua data!"
+        );
+
+        return;
+
+    }
+
+    products.push({
+
+        nama:nama,
+        harga:harga,
+        deskripsi:deskripsi,
+        gambar:gambar
+
+    });
+
+    localStorage.setItem(
+
+        "products",
+
+        JSON.stringify(
+        products
+        )
+
+    );
+
+    document.getElementById(
+    "namaProduk"
+    ).value = "";
+
+    document.getElementById(
+    "hargaProduk"
+    ).value = "";
+
+    document.getElementById(
+    "deskripsiProduk"
+    ).value = "";
+
+    document.getElementById(
+    "gambarProduk"
+    ).value = "";
+
+    tampilkanProduk();
+
+    alert(
+    "Produk berhasil ditambahkan!"
+    );
+
+}
+
+/* ========================= */
+/* HAPUS PRODUK */
+/* ========================= */
+
+function hapusProduk(index){
+
+    if(
+
+    confirm(
+    "Hapus produk ini?"
+    )
+
+    ){
+
+        products.splice(
+        index,
+        1
+        );
+
+        localStorage.setItem(
+
+            "products",
+
+            JSON.stringify(
+            products
+            )
+
+        );
+
+        tampilkanProduk();
+
+    }
+
+}
+
+/* ========================= */
+/* EDIT PRODUK */
+/* ========================= */
+
+function editProduk(index){
+
+    const produk =
+    products[index];
+
+    const nama =
+    prompt(
+    "Nama Produk",
+    produk.nama
+    );
+
+    if(nama === null) return;
+
+    const harga =
+    prompt(
+    "Harga Produk",
+    produk.harga
+    );
+
+    if(harga === null) return;
+
+    const deskripsi =
+    prompt(
+    "Deskripsi Produk",
+    produk.deskripsi
+    );
+
+    if(deskripsi === null) return;
+
+    const gambar =
+    prompt(
+    "Gambar Produk",
+    produk.gambar
+    );
+
+    if(gambar === null) return;
+
+    products[index] = {
+
+        nama:nama,
+        harga:harga,
+        deskripsi:deskripsi,
+        gambar:gambar
+
+    };
+
+    localStorage.setItem(
+
+        "products",
+
+        JSON.stringify(
+        products
+        )
+
+    );
+
+    tampilkanProduk();
+
+    alert(
+    "Produk berhasil diperbarui!"
+    );
+
+}
+
+/* ========================= */
+
+tampilkanProduk();
+
+/* ========================= */
+
+</script>
+
+</body>
+</html>

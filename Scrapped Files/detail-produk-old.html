@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Detail Produk - Brilliantz Stockist</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+
+    <div class="logo">
+        BRILLIANTZ STOCKIST
+    </div>
+
+    <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="produk.html">Produk</a>
+        <a href="support.html">Support</a>
+    </div>
+
+</nav>
+
+<section class="detail-page">
+
+    <div class="detail-container">
+
+        <div class="detail-image">
+
+            <img
+                id="gambarProduk"
+                src=""
+                alt="Produk">
+
+        </div>
+
+        <div class="detail-info">
+
+            <h1 id="namaProduk"></h1>
+
+            <h2>
+                ⭐ <span id="ratingProduk"></span>
+            </h2>
+
+            <h3>Kegunaan</h3>
+
+            <p id="kegunaanProduk"></p>
+
+            <h3>Deskripsi</h3>
+
+            <p id="deskripsiProduk"></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="catalog-section">
+
+    <h2>
+        Galeri Produk
+    </h2>
+
+    <div class="catalog-grid">
+
+        <div class="catalog-card">
+            <img id="galeri1" src="" alt="">
+        </div>
+
+        <div class="catalog-card">
+            <img id="galeri2" src="" alt="">
+        </div>
+
+        <div class="catalog-card">
+            <img id="galeri3" src="" alt="">
+        </div>
+
+    </div>
+
+</section>
+
+<section class="catalog-section">
+
+    <h2>
+        Testimoni Pelanggan
+    </h2>
+
+    <div class="catalog-grid">
+
+        <div class="catalog-card">
+
+            <h3>⭐⭐⭐⭐⭐</h3>
+
+            <p id="testimoni1"></p>
+
+        </div>
+
+        <div class="catalog-card">
+
+            <h3>⭐⭐⭐⭐⭐</h3>
+
+            <p id="testimoni2"></p>
+
+        </div>
+
+        <div class="catalog-card">
+
+            <h3>⭐⭐⭐⭐⭐</h3>
+
+            <p id="testimoni3"></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+const produkData = {
+
+    1:{
+        nama:"Produk Premium",
+
+        rating:"4.9 / 5",
+
+        gambar:"produk1.jpg",
+
+        kegunaan:
+        "Membantu memenuhi kebutuhan harian dengan kualitas premium.",
+
+        deskripsi:
+        "Produk pilihan dengan kualitas terbaik untuk kebutuhan sehari-hari.",
+
+        galeri1:"produk1.jpg",
+        galeri2:"produk1.jpg",
+        galeri3:"produk1.jpg",
+
+        testimoni1:
+        "\"Produknya bagus dan sesuai ekspektasi.\"",
+
+        testimoni2:
+        "\"Kualitas sangat baik dan nyaman digunakan.\"",
+
+        testimoni3:
+        "\"Recommended untuk kebutuhan sehari-hari.\""
+    },
+
+    2:{
+        nama:"Produk Best Seller",
+
+        rating:"4.8 / 5",
+
+        gambar:"produk2.jpg",
+
+        kegunaan:
+        "Cocok digunakan setiap hari dan dipercaya banyak pelanggan.",
+
+        deskripsi:
+        "Produk favorit pelanggan yang telah dipercaya banyak orang.",
+
+        galeri1:"produk2.jpg",
+        galeri2:"produk2.jpg",
+        galeri3:"produk2.jpg",
+
+        testimoni1:
+        "\"Sangat memuaskan dan kualitasnya mantap.\"",
+
+        testimoni2:
+        "\"Sudah beli beberapa kali dan tidak mengecewakan.\"",
+
+        testimoni3:
+        "\"Pantas jadi produk best seller.\""
+    },
+
+    3:{
+        nama:"Produk Unggulan",
+
+        rating:"5.0 / 5",
+
+        gambar:"produk3.jpg",
+
+        kegunaan:
+        "Memberikan manfaat terbaik dengan kualitas unggulan.",
+
+        deskripsi:
+        "Dirancang untuk memberikan manfaat dan kenyamanan maksimal.",
+
+        galeri1:"produk3.jpg",
+        galeri2:"produk3.jpg",
+        galeri3:"produk3.jpg",
+
+        testimoni1:
+        "\"Produk unggulan dengan kualitas luar biasa.\"",
+
+        testimoni2:
+        "\"Sangat puas dengan hasil yang diberikan.\"",
+
+        testimoni3:
+        "\"Layak menjadi pilihan utama.\""
+    }
+
+};
+
+const params =
+new URLSearchParams(window.location.search);
+
+const id =
+params.get("id") || "1";
+
+const produk =
+produkData[id];
+
+document.getElementById("namaProduk").textContent =
+produk.nama;
+
+document.getElementById("ratingProduk").textContent =
+produk.rating;
+
+document.getElementById("gambarProduk").src =
+produk.gambar;
+
+document.getElementById("kegunaanProduk").textContent =
+produk.kegunaan;
+
+document.getElementById("deskripsiProduk").textContent =
+produk.deskripsi;
+
+document.getElementById("galeri1").src =
+produk.galeri1;
+
+document.getElementById("galeri2").src =
+produk.galeri2;
+
+document.getElementById("galeri3").src =
+produk.galeri3;
+
+document.getElementById("testimoni1").textContent =
+produk.testimoni1;
+
+document.getElementById("testimoni2").textContent =
+produk.testimoni2;
+
+document.getElementById("testimoni3").textContent =
+produk.testimoni3;
+
+</script>
+
+</body>
+</html>

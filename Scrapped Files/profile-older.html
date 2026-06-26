@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile - Brilianz Warehouse</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<nav>
+
+<div class="logo">
+BRILIANZ WAREHOUSE
+</div>
+
+<div class="menu">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="produk.html">
+Produk
+</a>
+
+<a href="support.html">
+Support
+</a>
+
+<a href="profile.html">
+Profile
+</a>
+
+</div>
+
+</nav>
+
+<section class="support-page">
+
+<div class="support-container">
+
+<h1>
+Profile Saya
+</h1>
+
+<p>
+Informasi akun Brilianz Warehouse
+</p>
+
+<div class="support-form">
+
+<h2>
+Informasi Akun
+</h2>
+
+<br>
+
+<p>
+
+<strong>Username :</strong>
+
+<span id="username">
+
+</span>
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Role :</strong>
+
+<span id="role">
+
+</span>
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Tanggal Dibuat :</strong>
+
+<span id="createdAt">
+
+</span>
+
+</p>
+
+<br><br>
+
+<button
+class="btn"
+onclick="logout()">
+
+Logout
+
+</button>
+
+</div>
+
+<br>
+
+<div
+class="support-form"
+id="stockistMenu"
+style="display:none;">
+
+<h2>
+Menu Stockist
+</h2>
+
+<br>
+
+<a
+href="dashboard.html"
+class="btn">
+
+Dashboard Produk
+
+</a>
+
+<br><br>
+
+<h3>
+Pending Orders
+</h3>
+
+<br>
+
+<div id="pendingOrders">
+
+</div>
+
+</div>
+
+<br>
+
+<div
+class="support-form"
+id="developerMenu"
+style="display:none;">
+
+<h2>
+Menu Developer
+</h2>
+
+<br>
+
+<a
+href="developer-panel.html"
+class="btn">
+
+Developer Panel
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+/* ========================= */
+/* LOGIN CHECK */
+/* ========================= */
+
+const currentUser =
+JSON.parse(
+localStorage.getItem(
+"currentUser"
+)
+);
+
+if(!currentUser){
+
+alert(
+"Silakan Login Terlebih Dahulu"
+);
+
+window.location.href =
+"login.html";
+
+}
+
+/* ========================= */
+/* LOAD DATA */
+/* ========================= */
+
+document.getElementById(
+"username"
+).textContent =
+currentUser.username;
+
+document.getElementById(
+"role"
+).textContent =
+currentUser.role.toUpperCase();
+
+document.getElementById(
+"createdAt"
+).textContent =
+currentUser.createdAt ||
+"-";
+
+/* ========================= */
+/* STOCKIST MENU */
+/* ========================= */
+
+if(
+currentUser.role ===
+"stockist"
+){
+
+document.getElementById(
+"stockistMenu"
+).style.display =
+"block";
+
+}
+
+/* ========================= */
+/* STOCKIST MENU */
+/* ========================= */
+
+if(
+currentUser.role ===
+"stockist"
+){
+
+document.getElementById(
+"stockistMenu"
+).style.display =
+"block";
+
+}
+
+/* ========================= */
+/* DEVELOPER MENU */
+/* ========================= */
+
+if(
+currentUser.role ===
+"developer"
+){
+
+document.getElementById(
+"stockistMenu"
+).style.display =
+"block";
+
+document.getElementById(
+"developerMenu"
+).style.display =
+"block";
+
+}
+
+/* ========================= */
+/* PENDING ORDERS */
+/* ========================= */
+
+let orders =
+JSON.parse(
+localStorage.getItem(
+"orders"
+)
+) || [];
+
+const pendingContainer =
+document.getElementById(
+"pendingOrders"
+);
+
+if(
+pendingContainer &&
+(
+currentUser.role === "stockist" ||
+currentUser.role === "developer"
+)
+){
+
+const pendingOrders =
+orders.filter(
+order =>
+order.status === "pending"
+);
+
+if(
+pendingOrders.length === 0
+){
+
+pendingContainer.innerHTML =
+
+`
+
+<p>
+Tidak ada pesanan yang menunggu konfirmasi.
+</p>
+
+`;
+
+}else{
+
+pendingOrders.forEach(
+(order,index)=>{
+
+pendingContainer.innerHTML +=
+
+`
+
+<div class="user-card">
+
+<p>
+
+<strong>User :</strong>
+
+${order.username}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Produk :</strong>
+
+${order.product}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Harga :</strong>
+
+Rp${order.price}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Pembayaran :</strong>
+
+${order.payment}
+
+</p>
+
+<br>
+
+<p>
+
+<strong>Tanggal :</strong>
+
+${order.date}
+
+</p>
+
+<br>
+
+<button
+class="btn"
+onclick="selesaikanPesanan(${index})">
+
+Pesanan Selesai
+
+</button>
+
+<button
+class="btn"
+style="
+background:#dc3545;
+margin-left:10px;
+"
+onclick="batalkanPesanan(${index})">
+
+Batalkan Pesanan
+
+</button>
+
+</div>
+
+<br>
+
+`;
+
+});
+
+}
+
+}
+
+/* ========================= */
+/* SELESAIKAN PESANAN */
+/* ========================= */
+
+function selesaikanPesanan(index){
+
+const pendingOrders =
+orders.filter(
+order =>
+order.status === "pending"
+);
+
+const orderDipilih =
+pendingOrders[index];
+
+const realIndex =
+orders.findIndex(
+o =>
+o.date === orderDipilih.date &&
+o.username === orderDipilih.username
+);
+
+if(realIndex !== -1){
+
+orders[realIndex].status =
+"approved";
+
+localStorage.setItem(
+
+"orders",
+
+JSON.stringify(
+orders
+)
+
+);
+
+alert(
+"Pesanan sudah selesai dan sampai ke pelanggan!"
+);
+
+location.reload();
+
+}
+
+}
+
+/* ========================= */
+/* BATALKAN PESANAN */
+/* ========================= */
+
+function batalkanPesanan(index){
+
+const pendingOrders =
+orders.filter(
+order =>
+order.status === "pending"
+);
+
+const orderDipilih =
+pendingOrders[index];
+
+const realIndex =
+orders.findIndex(
+o =>
+o.date === orderDipilih.date &&
+o.username === orderDipilih.username
+);
+
+if(realIndex !== -1){
+
+orders[realIndex].status =
+"rejected";
+
+localStorage.setItem(
+
+"orders",
+
+JSON.stringify(
+orders
+)
+
+);
+
+alert(
+"Pesanan dibatalkan!"
+);
+
+location.reload();
+
+}
+
+}
+
+/* ========================= */
+/* LOGOUT */
+/* ========================= */
+
+function logout(){
+
+localStorage.removeItem(
+"currentUser"
+);
+
+alert(
+"Logout Berhasil"
+);
+
+window.location.href =
+"login.html";
+
+}
+
+</script>
+
+</body>
+</html>

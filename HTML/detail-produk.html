@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<!-- Lightbox Overlay -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="Zoom" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.6);pointer-events:none;">
+    <button onclick="closeLightbox()" style="position:fixed;top:20px;right:28px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:2rem;cursor:pointer;border-radius:50%;width:44px;height:44px;line-height:1;backdrop-filter:blur(4px);">&times;</button>
+</div>
+
+<section class="detail-page">
+    <div class="detail-container">
+        <div class="detail-image">
+            <img id="gambarProduk" src="../Resources/Images/belumadaproduk.png" alt="Produk" style="cursor:zoom-in;" onclick="openLightbox(this.src)">
+        </div>
+        <div class="detail-info">
+            <h1 id="namaProduk">Memuat Produk...</h1>
+            <div class="rating-display">
+                <img src="../Resources/Icons/rating.png" alt="" style="width:24px;height:24px;">
+                <h2>Rating: <span id="ratingProduk">0</span></h2>
+            </div>
+            <div id="fullViewOnly">
+                <h3>Harga</h3>
+                <p id="hargaProduk" class="product-price">-</p>
+                <h3>Stok</h3>
+                <p id="stokProduk">-</p>
+            </div>
+            <h3>Kegunaan</h3>
+            <p id="kegunaanProduk">-</p>
+            <h3>Deskripsi</h3>
+            <p id="deskripsiProduk">-</p>
+            <div id="fullViewOnly2">
+                <br>
+                <a id="btnPesan" class="btn btn-primary">Pesan Produk</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="catalog-section">
+    <h2>Galeri Produk</h2>
+    <div class="catalog-grid" id="galeriContainer"></div>
+</section>
+
+<section class="catalog-section">
+    <h2>Komentar Pelanggan</h2>
+    <div class="support-form" style="max-width:700px;margin:0 auto 2rem;">
+        <h3>Beri Ulasan</h3>
+        <label for="inputRating">Rating</label>
+        <select id="inputRating">
+            <option value="5">5 - Sangat Baik</option>
+            <option value="4">4 - Baik</option>
+            <option value="3">3 - Cukup</option>
+            <option value="2">2 - Kurang</option>
+            <option value="1">1 - Buruk</option>
+        </select>
+        <label for="inputKomentar">Komentar</label>
+        <textarea id="inputKomentar" placeholder="Tulis ulasan Anda..."></textarea>
+        <button class="btn btn-primary" id="kirimKomentar">Kirim Ulasan</button>
+    </div>
+    <div class="catalog-grid" id="komentarContainer"></div>
+</section>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+
+import { db } from "../JS/firebase-config.js";
+import { ref, get, update } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+import { PLACEHOLDER_IMAGE } from "../JS/utils/constants.js";
+import { formatCurrency } from "../JS/utils/format.js";
+
+function getSourcePage() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("from") || "produk";
+}
+
+function renderPublicView() {
+    document.getElementById("fullViewOnly").style.display = "none";
+    document.getElementById("fullViewOnly2").style.display = "none";
+}
+
+function renderFullView() {
+    document.getElementById("fullViewOnly").style.display = "";
+    document.getElementById("fullViewOnly2").style.display = "";
+}
+
+function toggleProductSections() {
+    const source = getSourcePage();
+    const publicSources = ["home", "hero", "katalog"];
+    if (publicSources.includes(source)) {
+        renderPublicView();
+    } else {
+        renderFullView();
+    }
+}
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+if (!id) {
+    alert("Produk tidak ditemukan");
+    window.location.href = "produk.html";
+}
+
+const snapshot = await get(ref(db, "products/" + id));
+
+if (!snapshot.exists()) {
+    alert("Produk tidak ditemukan");
+    window.location.href = "produk.html";
+}
+
+const produk = snapshot.val();
+
+document.getElementById("namaProduk").textContent = produk.nama || "-";
+document.getElementById("hargaProduk").textContent = formatCurrency(produk.harga);
+document.getElementById("stokProduk").textContent = produk.stok || 0;
+document.getElementById("ratingProduk").textContent = produk.rating || 0;
+document.getElementById("deskripsiProduk").textContent = produk.deskripsi || "-";
+document.getElementById("kegunaanProduk").textContent = produk.kegunaan || "-";
+document.getElementById("gambarProduk").src = produk.gambar || PLACEHOLDER_IMAGE;
+document.getElementById("btnPesan").href = "pembayaran.html?id=" + id;
+
+toggleProductSections();
+
+// Lightbox functions
+window.openLightbox = (src) => {
+    const lb = document.getElementById("lightbox");
+    document.getElementById("lightboxImg").src = src;
+    lb.style.display = "flex";
+    document.body.style.overflow = "hidden";
+};
+window.closeLightbox = () => {
+    document.getElementById("lightbox").style.display = "none";
+    document.body.style.overflow = "";
+};
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") window.closeLightbox(); });
+
+const galeriContainer = document.getElementById("galeriContainer");
+if (produk.galeri && produk.galeri.length > 0) {
+    produk.galeri.forEach((gambar) => {
+        galeriContainer.innerHTML += `<div class="catalog-card"><img src="${gambar}" alt="Galeri" style="cursor:zoom-in;" onclick="openLightbox(this.src)"></div>`;
+    });
+} else {
+    galeriContainer.innerHTML = `<div class="empty-state"><p>Belum ada galeri</p></div>`;
+}
+
+const komentarContainer = document.getElementById("komentarContainer");
+if (produk.komentar && produk.komentar.length > 0) {
+    produk.komentar.forEach((item) => {
+        komentarContainer.innerHTML += `
+            <div class="catalog-card">
+                <h3>Rating: ${item.rating}/5</h3>
+                <p>${item.komentar}</p>
+            </div>
+        `;
+    });
+} else {
+    komentarContainer.innerHTML = `<div class="empty-state"><p>Belum ada komentar</p></div>`;
+}
+
+document.getElementById("kirimKomentar").onclick = async () => {
+    const rating = document.getElementById("inputRating").value;
+    const komentar = document.getElementById("inputKomentar").value;
+
+    if (komentar.trim() === "") {
+        alert("Komentar tidak boleh kosong");
+        return;
+    }
+
+    const daftarKomentar = produk.komentar || [];
+    daftarKomentar.push({ rating, komentar });
+
+    await update(ref(db, "products/" + id), { komentar: daftarKomentar });
+    alert("Ulasan berhasil dikirim");
+    location.reload();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brilianz Warehouse</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="hero">
+    <div class="hero-slider-wrap">
+        <button type="button" class="hero-nav hero-nav--prev" id="heroPrev" aria-label="Produk sebelumnya">
+            <img src="Resources/Icons/bskiri.png" alt="">
+        </button>
+
+        <div class="hero-inner" id="heroInner">
+            <div class="hero-text">
+                <span class="best-seller-badge" id="bestSellerBadge">Best Seller Product</span>
+                <h1 id="productName">Memuat Produk...</h1>
+                <p id="productDesc">Mohon tunggu...</p>
+                <a href="HTML/produk.html" id="heroProductLink" class="btn btn-primary">Lihat Produk</a>
+            </div>
+            <div class="hero-image">
+                <img id="productImage" src="Resources/Images/belumadaproduk.png" alt="Produk">
+            </div>
+        </div>
+
+        <button type="button" class="hero-nav hero-nav--next" id="heroNext" aria-label="Produk berikutnya">
+            <img src="Resources/Icons/bskanan.png" alt="">
+        </button>
+    </div>
+
+    <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<section class="catalog-section">
+    <h2>Katalog Produk</h2>
+    <div class="product-grid-wrap">
+        <div class="produk-grid" id="homeCatalog"></div>
+    </div>
+</section>
+
+<section class="about">
+    <h2>Tentang Brilianz Warehouse</h2>
+    <p>Brilianz Warehouse merupakan platform penjualan produk berkualitas yang mengutamakan pelayanan terbaik dan kepuasan pelanggan.</p>
+    <p>Kami terus menghadirkan produk pilihan terpercaya untuk memenuhi kebutuhan pelanggan di seluruh Indonesia.</p>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <h2>Brilianz Warehouse</h2>
+        <p>Toko online produk premium terpercaya.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="HTML/produk.html">Produk</a>
+            <a href="HTML/support.html">Support</a>
+            <a href="HTML/profile.html">Profile</a>
+        </div>
+        <p class="copyright">&copy; 2026 Brilianz Warehouse. All rights reserved.</p>
+    </div>
+</footer>
+
+<script type="module">
+import "./JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+
+import "./JS/home-hero.js?v=3";
+</script>
+
+</body>
+</html>

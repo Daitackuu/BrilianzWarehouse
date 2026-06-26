@@ -1,0 +1,502 @@
+/* ================================= */
+/* RESET */
+/* ================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#f8fafc;
+color:#334155;
+line-height:1.6;
+}
+
+/* ================================= */
+/* NAVBAR */
+/* ================================= */
+
+nav{
+background:#1e1b4b;
+padding:18px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:999;
+backdrop-filter:blur(10px);
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+.logo{
+color:white;
+font-size:24px;
+font-weight:700;
+letter-spacing:.5px;
+}
+
+.menu{
+display:flex;
+gap:25px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+font-weight:600;
+position:relative;
+transition:.3s;
+}
+
+.menu a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-5px;
+width:0;
+height:2px;
+background:white;
+transition:.3s;
+}
+
+.menu a:hover::after{
+width:100%;
+}
+
+/* ================================= */
+/* HERO */
+/* ================================= */
+
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:80px 10%;
+min-height:85vh;
+gap:50px;
+}
+
+.hero-text{
+max-width:550px;
+}
+
+.hero-text h1{
+font-size:55px;
+color:#1e1b4b;
+margin-bottom:20px;
+line-height:1.2;
+}
+
+.hero-text p{
+font-size:18px;
+margin-bottom:30px;
+color:#64748b;
+}
+
+.hero-image img{
+width:500px;
+max-width:100%;
+border-radius:25px;
+box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+/* ================================= */
+/* BUTTON */
+/* ================================= */
+
+.btn{
+display:inline-block;
+padding:14px 28px;
+background:#1e1b4b;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+text-decoration:none;
+font-weight:600;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 25px rgba(30,27,75,.25);
+}
+
+.btn:active{
+transform:scale(.98);
+}
+
+/* ================================= */
+/* ABOUT */
+/* ================================= */
+
+.about{
+padding:90px 10%;
+text-align:center;
+}
+
+.about h2{
+font-size:38px;
+margin-bottom:25px;
+color:#1e1b4b;
+}
+
+.about p{
+max-width:900px;
+margin:auto;
+margin-bottom:15px;
+color:#64748b;
+}
+
+/* ================================= */
+/* SUPPORT */
+/* ================================= */
+
+.support-page{
+padding:70px 20px;
+}
+
+.support-container{
+max-width:900px;
+margin:auto;
+}
+
+.support-container h1{
+text-align:center;
+font-size:50px;
+color:#1e1b4b;
+margin-bottom:15px;
+}
+
+.support-container p{
+text-align:center;
+margin-bottom:30px;
+color:#64748b;
+}
+
+.support-form{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.support-form label{
+display:block;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.support-form input,
+.support-form textarea{
+width:100%;
+padding:14px;
+border:1px solid #dbe2ea;
+border-radius:12px;
+font-size:15px;
+margin-bottom:20px;
+transition:.3s;
+}
+
+.support-form input:focus,
+.support-form textarea:focus{
+outline:none;
+border-color:#1e1b4b;
+box-shadow:0 0 0 4px rgba(30,27,75,.1);
+}
+
+.support-form textarea{
+resize:vertical;
+min-height:130px;
+}
+
+/* ================================= */
+/* PASSWORD */
+/* ================================= */
+
+.password-container{
+position:relative;
+width:100%;
+}
+
+.password-container input{
+padding-right:70px;
+}
+
+.toggle-password{
+position:absolute;
+right:18px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:24px;
+user-select:none;
+transition:.3s;
+}
+
+.toggle-password:hover{
+opacity:.7;
+}
+
+.forgot-password{
+display:block;
+text-align:right;
+margin-top:-10px;
+margin-bottom:20px;
+font-weight:600;
+text-decoration:none;
+color:#1e1b4b;
+}
+
+.forgot-password:hover{
+text-decoration:underline;
+}
+
+/* ===================== */
+/* PRODUK */
+/* ===================== */
+
+.produk-page{
+padding:60px 10%;
+min-height:70vh;
+}
+
+.produk-page h1{
+text-align:center;
+margin-bottom:50px;
+color:#1e1b4b;
+font-size:48px;
+}
+
+.produk-grid{
+display:flex;
+justify-content:center;
+align-items:center;
+flex-wrap:wrap;
+gap:25px;
+width:100%;
+}
+
+.card{
+background:white;
+border-radius:15px;
+padding:25px;
+width:280px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.card img{
+width:100%;
+height:250px;
+object-fit:cover;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+.card h2{
+margin-bottom:10px;
+}
+
+.card h3{
+color:#1e1b4b;
+margin-bottom:15px;
+}
+
+.card p{
+line-height:1.6;
+margin-bottom:20px;
+}
+
+/* ================================= */
+/* PROFILE */
+/* ================================= */
+
+.profile-card{
+background:white;
+max-width:700px;
+margin:auto;
+padding:30px;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.profile-card p{
+margin-bottom:15px;
+}
+
+/* ================================= */
+/* USER CARD */
+/* ================================= */
+
+.user-card{
+background:white;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.role-buttons{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+}
+
+/* ================================= */
+/* ADMIN BUTTON */
+/* ================================= */
+
+#adminButton{
+display:none;
+position:fixed;
+right:25px;
+bottom:25px;
+background:#1e1b4b;
+color:white;
+padding:15px 20px;
+border-radius:50px;
+font-weight:600;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+transition:.3s;
+z-index:9999;
+}
+
+#adminButton:hover{
+transform:translateY(-5px);
+}
+
+/* ================================= */
+/* FOOTER */
+/* ================================= */
+
+footer{
+background:#1e1b4b;
+color:white;
+padding:50px 20px;
+margin-top:80px;
+}
+
+.footer-content{
+max-width:1200px;
+margin:auto;
+text-align:center;
+}
+
+.footer-content h2{
+margin-bottom:15px;
+}
+
+.footer-content p{
+margin-bottom:15px;
+}
+
+.footer-links{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.footer-links a{
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.footer-links a:hover{
+opacity:.8;
+}
+
+.copyright{
+opacity:.75;
+}
+
+/* ================================= */
+/* RESPONSIVE */
+/* ================================= */
+
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+gap:15px;
+padding:20px;
+}
+
+.menu{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.hero{
+flex-direction:column;
+text-align:center;
+padding:60px 20px;
+}
+
+.hero-text h1{
+font-size:40px;
+}
+
+.hero-image{
+margin-top:20px;
+}
+
+.hero-image img{
+width:100%;
+}
+
+.support-container h1{
+font-size:38px;
+}
+
+.produk-page h1{
+font-size:34px;
+}
+
+}
+
+@media(max-width:500px){
+
+.logo{
+font-size:20px;
+}
+
+.menu{
+gap:15px;
+}
+
+.hero-text h1{
+font-size:32px;
+}
+
+.btn{
+width:100%;
+text-align:center;
+}
+
+.toggle-password{
+font-size:22px;
+}
+
+.produk-grid{
+grid-template-columns:1fr;
+}
+
+.card{
+width:100%;
+}
+
+}

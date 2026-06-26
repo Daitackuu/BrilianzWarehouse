@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="support-page">
+    <div class="support-container wide">
+        <h1>Keranjang Belanja</h1>
+        <p>Produk yang Anda pilih untuk dipesan</p>
+
+        <div id="cartEmpty" class="empty-state" style="display:none;">
+            <img src="../Resources/Images/belumadaproduk.png" alt="">
+            <h2>Keranjang Kosong</h2>
+            <p>Belum ada produk di keranjang Anda.</p>
+            <a href="produk.html" class="btn btn-primary" style="margin-top:1rem;">Lihat Produk</a>
+        </div>
+
+        <div id="cartList"></div>
+
+        <div class="cart-summary">
+            <div>
+                <strong>Total:</strong>
+                <span id="cartTotal">Rp0</span>
+            </div>
+            <button class="btn btn-primary" onclick="checkoutCart()">Checkout</button>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/keranjang.js";
+</script>
+</body>
+</html>

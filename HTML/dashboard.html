@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<div id="dashboardLoading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+    <main class="admin-main dashboard-v3">
+        <div class="dashboard-header">
+            <h1>Dashboard Produk</h1>
+            <p>Kelola seluruh produk Brilianz Warehouse</p>
+        </div>
+
+        <div class="dashboard-stat">
+            <div class="stat-card">
+                <img src="../Resources/Icons/product.png" class="dashboard-icon" alt="">
+                <div class="dashboard-info"><h3>Total Produk</h3><h1 id="totalProduk">0</h1></div>
+            </div>
+            <div class="stat-card">
+                <img src="../Resources/Icons/stock.png" class="dashboard-icon" alt="">
+                <div class="dashboard-info"><h3>Total Stock</h3><h1 id="stokTotal">0</h1></div>
+            </div>
+            <div class="stat-card">
+                <img src="../Resources/Icons/rating.png" class="dashboard-icon" alt="">
+                <div class="dashboard-info"><h3>Rating Rata-rata</h3><h1 id="ratingRata">0</h1></div>
+            </div>
+            <div class="stat-card">
+                <img src="../Resources/Icons/money.png" class="dashboard-icon" alt="">
+                <div class="dashboard-info"><h3>Total Nilai</h3><h1 id="totalNilai">Rp0</h1></div>
+            </div>
+            <div class="stat-card">
+                <img src="../Resources/Icons/stock.png" class="dashboard-icon" alt="">
+                <div class="dashboard-info"><h3>Stok Menipis</h3><h1 id="lowStock">0</h1></div>
+            </div>
+        </div>
+
+        <div class="activity-panel">
+            <h3>Aktivitas Terbaru</h3>
+            <div id="recentActivity"><p class="text-muted">Memuat aktivitas...</p></div>
+        </div>
+
+        <div class="dashboard-toolbar">
+            <div class="dashboard-buttons">
+                <button id="btnEditMode" class="btn"><img src="../Resources/Icons/edit.png" alt=""> Edit Produk</button>
+                <button id="btnTambahMode" class="btn"><img src="../Resources/Icons/add-product.png" alt=""> Tambah Produk</button>
+            </div>
+            <div class="view-toggle">
+                <button id="viewGrid" class="active">Grid</button>
+                <button id="viewTable">Tabel</button>
+            </div>
+        </div>
+
+        <div id="formContainer" class="support-form form-hidden">
+            <h2 id="judulForm">Tambah Produk</h2>
+            <input id="nama" type="text" placeholder="Nama Produk">
+            <input id="harga" type="text" placeholder="Harga Produk (contoh: 50000 atau 50.000)">
+            <input id="stok" type="number" placeholder="Jumlah Stock">
+            <input id="rating" type="number" step="0.1" min="0" max="5" placeholder="Rating Produk (maks 5)">
+            <label class="best-seller-label">
+                <input id="bestSeller" type="checkbox"> Tandai sebagai Best Seller
+            </label>
+            <input id="gambar" type="text" placeholder="Link Gambar Utama">
+            <div class="image-preview-box">
+                <img id="previewGambar" src="../Resources/Images/belumadaproduk.png" alt="Preview">
+            </div>
+            <textarea id="galeri" placeholder="Link Galeri (pisahkan dengan koma)"></textarea>
+            <textarea id="kegunaan" placeholder="Kegunaan Produk"></textarea>
+            <textarea id="deskripsi" placeholder="Deskripsi Produk"></textarea>
+            <div class="dashboard-buttons">
+                <button id="btnSimpan" class="btn btn-primary">Tambah Produk</button>
+                <button id="btnHapus" class="btn btn-danger" style="display:none;">Hapus Produk</button>
+                <button id="btnBatal" class="btn btn-secondary">Batal</button>
+            </div>
+        </div>
+
+        <div id="modeInfo" class="mode-badge" style="display:none;">Mode Edit Aktif</div>
+
+        <div class="search-box">
+            <img src="../Resources/Icons/search.png" alt="">
+            <input id="searchProduk" type="text" placeholder="Cari produk...">
+        </div>
+
+        <div class="filter-row">
+            <img src="../Resources/Icons/sort.png" alt="" style="width:20px;height:20px;">
+            <select id="sortProduk">
+                <option value="default">Urutan Default</option>
+                <option value="namaAsc">Nama A-Z</option>
+                <option value="namaDesc">Nama Z-A</option>
+                <option value="hargaAsc">Harga Termurah</option>
+                <option value="hargaDesc">Harga Termahal</option>
+                <option value="stokDesc">Stock Terbanyak</option>
+                <option value="ratingDesc">Rating Tertinggi</option>
+            </select>
+        </div>
+
+        <div id="listProduk" class="catalog-grid"></div>
+        <div id="pagination" class="pagination"></div>
+    </main>
+</div>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/dashboard.js";
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="detail-page">
+    <div class="detail-container">
+        <div class="detail-image">
+            <img id="gambarProduk" src="../Resources/Images/belumadaproduk.png" alt="Produk">
+        </div>
+        <div class="detail-info">
+            <h1 id="namaProduk">Memuat...</h1>
+            <h2 id="hargaProduk"></h2>
+            <p id="deskripsiProduk"></p>
+
+            <div class="payment-form">
+                <div class="payment-field">
+                    <label for="alamat">Alamat Pengiriman</label>
+                    <textarea id="alamat" placeholder="Masukkan alamat lengkap"></textarea>
+                </div>
+
+                <div class="payment-field">
+                    <label for="mapsLink">Pin Lokasi Google Maps</label>
+                    <div class="payment-input-row">
+                        <input type="text" id="mapsLink" placeholder="https://maps.google.com/...">
+                        <button type="button" class="btn btn-secondary" onclick="ambilLokasi()">Ambil Lokasi Saya</button>
+                    </div>
+                </div>
+
+                <div class="payment-field">
+                    <label for="payment">Metode Pembayaran</label>
+                    <div class="payment-input-row payment-input-row--checkout">
+                        <select id="payment">
+                            <option>DANA</option>
+                            <option>QRIS</option>
+                            <option>Transfer Bank</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" onclick="pesanProduk()">Beli Sekarang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/pembayaran.js";
+</script>
+</body>
+</html>

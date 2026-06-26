@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Panel - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+    <main class="admin-main">
+        <div class="dashboard-header">
+            <h1>Developer Panel</h1>
+            <p>Kelola user dan produk sistem Brilianz Warehouse</p>
+        </div>
+
+        <div id="stats" class="dashboard-stat"></div>
+
+        <div class="activity-panel">
+            <h3>Manajemen User</h3>
+            <div id="users"></div>
+        </div>
+
+        <div class="activity-panel">
+            <h3>Manajemen Produk Cepat</h3>
+            <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+                <input id="pn" type="text" placeholder="Nama produk baru" style="flex:1;min-width:200px;padding:12px;border:1px solid var(--bw-border);border-radius:10px;">
+                <button class="btn btn-primary" onclick="addP()">Tambah Produk</button>
+            </div>
+            <div id="products"></div>
+        </div>
+    </main>
+</div>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/developer-panel.js";
+</script>
+</body>
+</html>

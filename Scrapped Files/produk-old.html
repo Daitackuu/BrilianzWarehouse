@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Produk - Brilliantz Stockist</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+#adminButton{
+
+    display:none;
+
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    background:#1a1a3a;
+    color:white;
+
+    padding:15px 20px;
+
+    border-radius:50px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.3);
+
+    z-index:9999;
+
+    transition:.3s;
+
+}
+
+#adminButton:hover{
+
+    transform:translateY(-5px);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        BRILLIANTZ STOCKIST
+    </div>
+
+    <div class="menu">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="produk.html">
+            Produk
+        </a>
+
+        <a href="support.html">
+            Support
+        </a>
+
+        <a
+        href="login.html"
+        id="accountLink">
+
+            Login
+
+        </a>
+
+    </div>
+
+</nav>
+
+<section class="produk-page">
+
+    <h1>
+        Produk Kami
+    </h1>
+
+    <div
+    class="produk-grid"
+    id="produkGrid">
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="footer-content">
+
+        <h2>
+            Brilliantz Stockist
+        </h2>
+
+        <p>
+            Toko online produk premium terpercaya.
+        </p>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="produk.html">
+                Produk
+            </a>
+
+            <a href="support.html">
+                Support
+            </a>
+
+            <a
+            href="login.html"
+            id="footerAccountLink">
+
+                Login
+
+            </a>
+
+        </div>
+
+        <p class="copyright">
+            © 2025 Brilliantz Stockist
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- FLOATING BUTTON ADMIN -->
+
+<a
+id="adminButton"
+href="dashboard.html">
+
+➕ Tambah Produk
+
+</a>
+
+<script>
+
+/* ========================= */
+/* USER LOGIN */
+/* ========================= */
+
+const currentUser =
+JSON.parse(
+localStorage.getItem(
+"currentUser"
+)
+);
+
+/* ========================= */
+/* NAVBAR LOGIN / PROFILE */
+/* ========================= */
+
+const accountLink =
+document.getElementById(
+"accountLink"
+);
+
+if(currentUser){
+
+    accountLink.textContent =
+    "Profile";
+
+    accountLink.href =
+    "profile.html";
+
+}else{
+
+    accountLink.textContent =
+    "Login";
+
+    accountLink.href =
+    "login.html";
+
+}
+
+/* ========================= */
+/* FOOTER LOGIN / PROFILE */
+/* ========================= */
+
+const footerAccountLink =
+document.getElementById(
+"footerAccountLink"
+);
+
+if(currentUser){
+
+    footerAccountLink.textContent =
+    "Profile";
+
+    footerAccountLink.href =
+    "profile.html";
+
+}else{
+
+    footerAccountLink.textContent =
+    "Login";
+
+    footerAccountLink.href =
+    "login.html";
+
+}
+
+/* ========================= */
+/* TOMBOL ADMIN */
+/* ========================= */
+
+const adminButton =
+document.getElementById(
+"adminButton"
+);
+
+if(
+currentUser &&
+(
+currentUser.role === "admin" ||
+currentUser.role === "developer"
+)
+){
+
+    adminButton.style.display =
+    "block";
+
+}
+
+/* ========================= */
+/* LOAD PRODUK */
+/* ========================= */
+
+const produkGrid =
+document.getElementById(
+"produkGrid"
+);
+
+const products =
+JSON.parse(
+localStorage.getItem(
+"products"
+)
+) || [];
+
+if(products.length === 0){
+
+    produkGrid.innerHTML = `
+
+    <div class="card">
+
+        <h2>
+            Belum Ada Produk
+        </h2>
+
+        <p>
+            Tunggu sampai admin menambahkan produk.
+        </p>
+
+    </div>
+
+    `;
+
+}else{
+
+    products.forEach(
+    (produk,index)=>{
+
+        produkGrid.innerHTML += `
+
+        <div class="card">
+
+            <img
+            src="${produk.gambar}"
+            alt="${produk.nama}">
+
+            <h2>
+                ${produk.nama}
+            </h2>
+
+            <h3 class="harga">
+    Rp${produk.harga}
+</h3>
+
+            <p>
+                ${produk.deskripsi}
+            </p>
+
+            <a
+            href="pembayaran.html?id=${index}"
+            class="btn">
+
+                Pesan Produk
+
+            </a>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>

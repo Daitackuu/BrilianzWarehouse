@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - Brilianz Warehouse</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.profile-picture-section{text-align:center;margin-bottom:25px}
+.profile-image{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #1a1a3a}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="logo">BRILIANZ WAREHOUSE</div>
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="produk.html">Produk</a>
+<a href="support.html">Support</a>
+<a href="profile.html">Profile</a>
+</div>
+</nav>
+
+<section class="support-page">
+<div class="support-container">
+
+<h1>Profile Saya</h1>
+<p>Informasi akun Brilianz Warehouse</p>
+
+<div class="support-form">
+<h2>Informasi Akun</h2>
+
+<div class="profile-picture-section">
+<img id="profileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-image">
+<br><br>
+<button class="btn" onclick="editPhoto()">✏️ Edit Foto Profil</button>
+</div>
+
+<p><strong>Username :</strong> <span id="username"></span>
+<button class="btn" onclick="editUsername()">✏️</button></p>
+
+<p><strong>Email :</strong> <span id="email"></span>
+<button class="btn" onclick="editEmail()">✏️</button></p>
+
+<p><strong>Password :</strong> ********
+<button class="btn" onclick="editPassword()">✏️</button></p>
+
+<p><strong>Role :</strong> <span id="role"></span></p>
+<p><strong>Tanggal Dibuat :</strong> <span id="createdAt"></span></p>
+
+<button class="btn" onclick="logout()">Logout</button>
+</div>
+
+<br>
+
+<div class="support-form" id="stockistMenu" style="display:none;">
+<h2>Menu Stockist</h2>
+<a href="dashboard.html" class="btn">Dashboard Produk</a>
+<br><br>
+<h3>Pending Orders</h3>
+<div id="pendingOrders"></div>
+</div>
+
+<br>
+
+<div class="support-form" id="developerMenu" style="display:none;">
+<h2>Menu Developer</h2>
+<a href="developer-panel.html" class="btn">Developer Panel</a>
+</div>
+
+</div>
+</section>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+alert("Silakan Login Terlebih Dahulu");
+window.location.href="login.html";
+}
+
+document.getElementById("username").textContent=currentUser.username || "-";
+document.getElementById("email").textContent=currentUser.email || "-";
+document.getElementById("role").textContent=(currentUser.role || "-").toUpperCase();
+document.getElementById("createdAt").textContent=currentUser.createdAt || "-";
+
+const savedPhoto=localStorage.getItem("profilePhoto");
+if(savedPhoto){
+document.getElementById("profileImage").src=savedPhoto;
+}
+
+if(currentUser.role==="stockist"){
+document.getElementById("stockistMenu").style.display="block";
+}
+
+if(currentUser.role==="developer"){
+document.getElementById("stockistMenu").style.display="block";
+document.getElementById("developerMenu").style.display="block";
+}
+
+let orders=JSON.parse(localStorage.getItem("orders")) || [];
+const pendingContainer=document.getElementById("pendingOrders");
+
+if(pendingContainer && (currentUser.role==="stockist" || currentUser.role==="developer")){
+const pendingOrders=orders.filter(order=>order.status==="pending");
+
+if(pendingOrders.length===0){
+pendingContainer.innerHTML="<p>Tidak ada pesanan yang menunggu konfirmasi.</p>";
+}else{
+pendingOrders.forEach((order,index)=>{
+pendingContainer.innerHTML += `
+<div class="user-card">
+<p><strong>User :</strong> ${order.username}</p>
+<p><strong>Produk :</strong> ${order.product}</p>
+<p><strong>Harga :</strong> Rp${order.price}</p>
+<p><strong>Pembayaran :</strong> ${order.payment}</p>
+<p><strong>Tanggal :</strong> ${order.date}</p>
+<button class="btn" onclick="selesaikanPesanan(${index})">Pesanan Selesai</button>
+<button class="btn" style="background:#dc3545;margin-left:10px;" onclick="batalkanPesanan(${index})">Batalkan Pesanan</button>
+</div><br>`;
+});
+}
+}
+
+function editUsername(){
+const username=prompt("Masukkan Username Baru",currentUser.username);
+if(!username) return;
+currentUser.username=username;
+localStorage.setItem("currentUser",JSON.stringify(currentUser));
+document.getElementById("username").textContent=username;
+}
+
+function editEmail(){
+const email=prompt("Masukkan Email Baru",currentUser.email || "");
+if(!email) return;
+currentUser.email=email;
+localStorage.setItem("currentUser",JSON.stringify(currentUser));
+document.getElementById("email").textContent=email;
+}
+
+function editPassword(){
+const password=prompt("Masukkan Password Baru");
+if(!password) return;
+currentUser.password=password;
+localStorage.setItem("currentUser",JSON.stringify(currentUser));
+alert("Password berhasil diubah!");
+}
+
+function editPhoto(){
+const url=prompt("Masukkan URL Foto Profil");
+if(!url) return;
+localStorage.setItem("profilePhoto",url);
+document.getElementById("profileImage").src=url;
+}
+
+function selesaikanPesanan(index){
+const pendingOrders=orders.filter(order=>order.status==="pending");
+const orderDipilih=pendingOrders[index];
+const realIndex=orders.findIndex(o=>o.date===orderDipilih.date && o.username===orderDipilih.username);
+
+if(realIndex!==-1){
+orders[realIndex].status="approved";
+localStorage.setItem("orders",JSON.stringify(orders));
+alert("Pesanan sudah selesai dan sampai ke pelanggan!");
+location.reload();
+}
+}
+
+function batalkanPesanan(index){
+const pendingOrders=orders.filter(order=>order.status==="pending");
+const orderDipilih=pendingOrders[index];
+const realIndex=orders.findIndex(o=>o.date===orderDipilih.date && o.username===orderDipilih.username);
+
+if(realIndex!==-1){
+orders[realIndex].status="rejected";
+localStorage.setItem("orders",JSON.stringify(orders));
+alert("Pesanan dibatalkan!");
+location.reload();
+}
+}
+
+function logout(){
+localStorage.removeItem("currentUser");
+alert("Logout Berhasil");
+window.location.href="login.html";
+}
+</script>
+
+</body>
+</html>

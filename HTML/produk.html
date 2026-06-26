@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="produk-page">
+    <h1>Produk Kami</h1>
+    <div id="produkLoading" class="loading-inline">Memuat produk...</div>
+    <div class="product-grid-wrap">
+        <div class="produk-grid" id="produkGrid"></div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <h2>Brilianz Warehouse</h2>
+        <p>Toko online produk premium terpercaya.</p>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="produk.html">Produk</a>
+            <a href="support.html">Support</a>
+            <a href="login.html">Login</a>
+        </div>
+        <p class="copyright">&copy; 2026 Brilianz Warehouse. All rights reserved.</p>
+    </div>
+</footer>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/produk-page.js";
+</script>
+</body>
+</html>

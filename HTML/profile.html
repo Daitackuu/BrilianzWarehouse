@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="support-page">
+    <div class="support-container wide">
+        <h1>Profile Saya</h1>
+        <p>Informasi akun Brilianz Warehouse</p>
+
+        <div class="support-form">
+            <h2>Informasi Akun</h2>
+
+            <div class="profile-picture-section">
+                <img id="profileImage" src="../Resources/Icons/user.png" class="profile-image" alt="Profile">
+                <button class="btn btn-secondary" onclick="editPhoto()">Edit Foto Profil</button>
+                <input type="file" id="photoInput" accept="image/*" hidden>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-row">
+                    <strong>Username</strong><div>:</div><span id="username"></span>
+                    <button class="edit-icon" onclick="editUsername()" aria-label="Edit username"></button>
+                </div>
+                <div class="profile-row">
+                    <strong>Email</strong><div>:</div><span id="email"></span>
+                    <button class="edit-icon" onclick="editEmail()" aria-label="Edit email"></button>
+                </div>
+                <div class="profile-row">
+                    <strong>Password</strong><div>:</div><span>********</span>
+                    <button class="edit-icon" onclick="editPassword()" aria-label="Edit password"></button>
+                </div>
+                <div class="profile-row">
+                    <strong>Role</strong><div>:</div><span id="role"></span><div></div>
+                </div>
+                <div class="profile-row">
+                    <strong>Tanggal Dibuat</strong><div>:</div><span id="createdAt"></span><div></div>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="support-form role-panel" id="stockistMenu" style="display:none;">
+            <h2>Menu Stockist</h2>
+            <a href="dashboard.html" class="btn btn-primary">
+                <img src="../Resources/Icons/dashboard.png" alt=""> Dashboard Produk
+            </a>
+        </div>
+
+        <div class="support-form role-panel" id="developerMenu" style="display:none;">
+            <h2>Menu Developer</h2>
+            <a href="developer-panel.html" class="btn btn-primary">
+                <img src="../Resources/Icons/developer.png" alt=""> Developer Panel
+            </a>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+import "../JS/profile.js";
+</script>
+</body>
+</html>

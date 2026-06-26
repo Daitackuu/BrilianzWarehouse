@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="support-page">
+    <div class="support-container">
+        <h1>Login</h1>
+        <p>Masuk ke akun Brilianz Warehouse Anda untuk berbelanja produk.</p>
+
+        <form id="loginForm" class="support-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Masukkan Username" required>
+
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Masukkan Password" required autocomplete="current-password">
+                <button type="button" class="toggle-password" aria-label="Tampilkan password" aria-pressed="false"></button>
+            </div>
+
+            <a href="support.html" class="forgot-password">Lupa Password?</a>
+
+            <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
+
+            <div class="login-link">
+                Belum Memiliki Akun? <a href="register.html">Create Account</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="../JS/password-toggle.js"></script>
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+</script>
+<script type="module" src="../JS/login.js"></script>
+</body>
+</html>

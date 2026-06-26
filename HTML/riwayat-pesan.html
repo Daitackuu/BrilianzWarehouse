@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesan - Brilianz Warehouse</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<nav>
+    <div class="logo">Brilianz Warehouse</div>
+    <div class="menu"></div>
+</nav>
+
+<section class="support-page">
+    <div class="support-container wide">
+        <h1>Riwayat Pesanan</h1>
+        <p>Daftar pesanan yang pernah Anda buat</p>
+        <div id="orderList"></div>
+        <div id="orderEmpty" class="empty-state">
+            <img src="../Resources/Images/belumadaproduk.png" alt="">
+            <h2>Belum Ada Pesanan</h2>
+            <p>Anda belum pernah membuat pesanan.</p>
+            <a href="produk.html" class="btn btn-primary" style="margin-top:1rem;">Mulai Belanja</a>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+import "../JS/navbar.js";
+if (window.initNavbar) window.initNavbar();
+
+import { auth, db } from "../JS/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+import { formatCurrency } from "../JS/utils/format.js";
+
+const orderList = document.getElementById("orderList");
+const orderEmpty = document.getElementById("orderEmpty");
+
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    onValue(ref(db, "orders"), (snapshot) => {
+        const userOrders = [];
+        snapshot.forEach((item) => {
+            const o = item.val();
+            if (o.userId === user.uid) {
+                userOrders.push({ id: item.key, ...o });
+            }
+        });
+
+        userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        if (userOrders.length === 0) {
+            orderList.innerHTML = "";
+            orderEmpty.style.display = "block";
+            return;
+        }
+
+        orderEmpty.style.display = "none";
+        orderList.innerHTML = userOrders.map((o) => `
+            <div class="user-card">
+                <div>
+                    <strong>${o.product || "-"}</strong>
+                    <p class="text-muted">${o.date || "-"}</p>
+                    <p>${formatCurrency(o.price)} &middot; ${o.payment || "-"}</p>
+                </div>
+                <span class="badge badge-info">${o.status || "pending"}</span>
+            </div>
+        `).join("");
+    });
+});
+</script>
+</body>
+</html>

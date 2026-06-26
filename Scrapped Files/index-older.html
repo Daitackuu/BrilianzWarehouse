@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Brilliantz Stockist</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<nav>
+
+    <div class="logo">
+        BRILLIANTZ STOCKIST
+    </div>
+
+    <div class="menu">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="produk.html">
+            Produk
+        </a>
+
+        <a href="support.html">
+            Support
+        </a>
+
+        <a
+        href="login.html"
+        id="accountLink">
+
+            Login
+
+        </a>
+
+    </div>
+
+</nav>
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <h1 id="productName">
+            Produk Terbaik
+        </h1>
+
+        <p id="productDesc">
+            Produk pilihan dengan kualitas terbaik
+            untuk kebutuhan sehari-hari.
+        </p>
+
+        <a
+        href="produk.html"
+        class="btn">
+
+            Lihat Produk
+
+        </a>
+
+    </div>
+
+    <div class="hero-image">
+
+        <img
+        id="productImage"
+        src="belumadaproduk.png"
+        alt="Produk">
+
+    </div>
+
+</section>
+
+<section class="about">
+
+    <h2>
+        Tentang Brilliantz Stockist
+    </h2>
+
+    <p>
+        Brilliantz Stockist merupakan platform
+        penjualan produk berkualitas yang
+        mengutamakan pelayanan terbaik dan
+        kepuasan pelanggan.
+    </p>
+
+    <br>
+
+    <p>
+        Kami terus menghadirkan produk pilihan
+        yang terpercaya untuk memenuhi kebutuhan
+        pelanggan di seluruh Indonesia.
+    </p>
+
+</section>
+
+<footer>
+
+    <div class="footer-content">
+
+        <h2>
+            Brilliantz Stockist
+        </h2>
+
+        <p>
+            Toko online produk premium terpercaya.
+        </p>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="produk.html">
+                Produk
+            </a>
+
+            <a href="support.html">
+                Support
+            </a>
+
+            <a
+            href="login.html"
+            id="footerAccountLink">
+
+                Login
+
+            </a>
+
+        </div>
+
+        <p class="copyright">
+            © 2025 Brilliantz Stockist
+        </p>
+
+    </div>
+
+</footer>
+
+<script>
+
+/* ========================= */
+/* LOGIN CHECK */
+/* ========================= */
+
+const currentUser =
+JSON.parse(
+localStorage.getItem(
+"currentUser"
+)
+);
+
+/* ========================= */
+/* NAVBAR LOGIN / PROFILE */
+/* ========================= */
+
+const accountLink =
+document.getElementById(
+"accountLink"
+);
+
+if(currentUser){
+
+    accountLink.textContent =
+    "Profile";
+
+    accountLink.href =
+    "profile.html";
+
+}else{
+
+    accountLink.textContent =
+    "Login";
+
+    accountLink.href =
+    "login.html";
+
+}
+
+/* ========================= */
+/* FOOTER LOGIN / PROFILE */
+/* ========================= */
+
+const footerAccountLink =
+document.getElementById(
+"footerAccountLink"
+);
+
+if(currentUser){
+
+    footerAccountLink.textContent =
+    "Profile";
+
+    footerAccountLink.href =
+    "profile.html";
+
+}else{
+
+    footerAccountLink.textContent =
+    "Login";
+
+    footerAccountLink.href =
+    "login.html";
+
+}
+
+/* ========================= */
+/* HERO PRODUK OTOMATIS */
+/* ========================= */
+
+const products =
+JSON.parse(
+localStorage.getItem(
+"products"
+)
+) || [];
+
+let currentIndex = 0;
+
+function tampilkanProdukHero(){
+
+    if(products.length === 0){
+
+        document.getElementById(
+        "productName"
+        ).textContent =
+        "Belum ada produk yang tersedia";
+
+        document.getElementById(
+        "productDesc"
+        ).textContent =
+        "Produk belum ditambahkan. Silakan cek kembali nanti.";
+
+        return;
+
+    }
+
+    document.getElementById(
+    "productName"
+    ).textContent =
+    products[currentIndex].nama;
+
+    document.getElementById(
+    "productDesc"
+    ).textContent =
+    products[currentIndex].deskripsi;
+
+    document.getElementById(
+    "productImage"
+    ).src =
+    products[currentIndex].gambar;
+
+}
+
+/* tampil pertama */
+
+tampilkanProdukHero();
+
+/* ganti tiap 5 detik */
+
+if(products.length > 1){
+
+    setInterval(()=>{
+
+        currentIndex++;
+
+        if(
+        currentIndex >=
+        products.length
+        ){
+
+            currentIndex = 0;
+
+        }
+
+        tampilkanProdukHero();
+
+    },5000);
+
+}
+
+</script>
+
+</body>
+</html>
